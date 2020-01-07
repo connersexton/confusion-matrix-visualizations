@@ -94,12 +94,50 @@ gender_test_pred <- predict(gender_classifier, party_test)
 confusionMatrix(gender_test_labels, gender_test_pred, positive = "F")
 
 
-#### -- Gender Viz (2 class)
+#### Visualizing Confusion Matrices:
+## Two Classes:
 
+## with fourfoldplot function:
+## Store confusion matrix in object ("cm.gender")
 cm.gender <- confusionMatrix(gender_test_labels, gender_test_pred, positive = "F")
-cm.gender.g1 <- c(unname(cm.gender$table[1,]),unname(cm.gender$table[2,]))
-fourfoldplot(ctable, color = c("#CC6666", "#99CC99"),
+
+fourfoldplot(cm.gender$table, color = c("#CC6666", "#99CC99"),
              conf.level = 0, margin = 1, main = "Confusion Matrix")
+
+## with draw_confusion_matrix() function:
+draw_confusion_matrix(cm.gender, 2)
+
+## with D3 chorddiag package:
+# https://github.com/mattflor/chorddiag
+# https://stats.stackexchange.com/questions/290889/what-is-the-best-way-of-graphical-or-visual-representation-of-confusion-matrix
+
+library(chorddiag)
+
+# create graph matrix:
+cm.gender.d3 <- matrix(c(70, 200,
+                         179, 801),
+                       byrow = TRUE,
+                       nrow = 2,
+                       ncol = 2)
+cm.gender.d3.names <- c("Female", "Male")
+dimnames(cm.gender.d3) <- list(have = cm.gender.d3.names,
+                               prefer = cm.gender.d3.names)
+# aquamarine4, coral2
+cm.gender.d3.colors <- c("#B79AE8", "#E8AC9A")
+chorddiag(cm.gender.d3, 
+          groupColors = cm.gender.d3.colors,
+          groupnamePadding = 20,
+          showTicks = F)
+
+
+
+## Three Classes:
+
+## Store confusion matrix in object ("cm.party")
+cm.party <- confusionMatrix(party_test_labels, party_test_pred, positive = "Democrat")
+
+## with draw_confusion_matrix() function:
+draw_confusion_matrix(cm.party, 3)
 
 
 
