@@ -1,4 +1,4 @@
-# confusion-matrix-visualizations
+# Confusion Matrix Visualizations
 
 Exploring methods for visualizing confusion matrices from machine learning models using R.
 
@@ -8,6 +8,49 @@ The data used in the following examples is an aggregate of three data sets from 
 
 Additionally, these examples use machine learning models built using Naive Bayes (two and three class classifiers). A more in depth description of the data and machine learning models used can be found in my [data science portfolio](https://connersexton.github.io/politics/).
 
+>The visualizations used in these examples utilize the [caret package's](https://cran.r-project.org/web/packages/caret/caret.pdf) **confusionMatrix()** function.
+
 ---
 
-examples of 2 class and 3 class machine learning models (gender and party models) - include visualizations and code...
+## Visualizing 2-Class Confusion Matrices
+
+First, we'll look at some examples of plotting a confusion matrix for a 2 class model. These examples will use the aforementioned data on political messages to the gender of a given politician with Naive Bayes.
+
+### 1. fourfoldplot (Base R)
+
+```r
+## store confusion matrix in object ("cm.gender")
+cm.gender <- confusionMatrix(gender_test_labels, gender_test_pred, positive = "F")
+
+## plot confusion matrix
+fourfoldplot(cm.gender$table, color = c("#CC6666", "#99CC99"),
+             conf.level = 0, margin = 1, main = "Confusion Matrix")
+```
+
+<figure>
+    <a href="/images/2-class-fourfoldplot.png"><img src="/images/2-class-fourfoldplot.png"></a>
+</figure>
+
+### 2. draw_confusion_matrix() function
+
+The draw_confusion_matrix() function was initially written by [@Cybernetic](https://stackoverflow.com/users/1639594/cybernetic) on Stack Overflow. The function uses Base R graphics to build clean visuals to display the results and confusion matrix of a given 2-class machine learning model.
+
+>This function only supports 2-class models, but I've rewritten the code to support 3-class models, which is reflected in my examples of 3-class visualizations. The code for this function is included in this repository.
+
+```r
+## with draw_confusion_matrix() function:
+draw_confusion_matrix(cm.gender, 2)
+## inputs:
+# - caret package confusion matrix object
+# - number of classes the model predicts
+```
+
+<figure>
+    <a href="/images/2-class-cybernetic.png"><img src="/images/2-class-cybernetic.png"></a>
+</figure>
+
+Color ramps on confusion matrix rectangles:
+
+- opacity indicates strength of a given prediction (lighter indicates less, darker indicates more)
+
+- color indicates whether the prediction was true or false (red indicates a false prediction and green, a true prediction)
