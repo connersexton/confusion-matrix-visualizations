@@ -54,3 +54,39 @@ Color ramps on confusion matrix rectangles:
 - opacity indicates strength of a given prediction (lighter indicates less, darker indicates more)
 
 - color indicates whether the prediction was true or false (red indicates a false prediction and green, a true prediction)
+
+### 3. Chord Diagram (choorddiag)
+
+The [**corddiag**](https://github.com/mattflor/chorddiag) R-package was developed by [Matt Flor](https://github.com/mattflor) and can be used to visualize confusion matrices. Flor's package uses JavaScripts D3 visualization library to create interactive chord diagrams. I've added html files to the *images* folder in this repository, which contain the interactive javascript plots.
+
+```r
+library(chorddiag)
+
+# create graph matrix:
+cm.gender.d3 <- matrix(c(70, 200,
+                         179, 801),
+                       byrow = TRUE,
+                       nrow = 2,
+                       ncol = 2)
+
+cm.gender.d3.names <- c("Female", "Male")
+dimnames(cm.gender.d3) <- list(have = cm.gender.d3.names,
+                               prefer = cm.gender.d3.names)
+
+cm.gender.d3.colors <- c("#B79AE8", "#E8AC9A")
+chorddiag(cm.gender.d3,
+          groupColors = cm.gender.d3.colors,
+          groupnamePadding = 20,
+          showTicks = F)
+```
+
+<figure>
+    <a href="/images/2-class-d3-screencap.png"><img src="/images/2-class-d3-screencap.png"></a>
+</figure>
+
+I find this visualization particularly helpful in it's ability to visually articulate false negatives and false positives. It's interesting to see the source of these misclassifications, especially when you're working with more than two classes, which we'll see below.
+
+
+## Visualizing 3-Class Confusion Matrices
+
+working on it...
