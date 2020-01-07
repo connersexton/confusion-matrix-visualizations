@@ -122,7 +122,7 @@ cm.gender.d3 <- matrix(c(70, 200,
 cm.gender.d3.names <- c("Female", "Male")
 dimnames(cm.gender.d3) <- list(have = cm.gender.d3.names,
                                prefer = cm.gender.d3.names)
-# aquamarine4, coral2
+
 cm.gender.d3.colors <- c("#B79AE8", "#E8AC9A")
 chorddiag(cm.gender.d3, 
           groupColors = cm.gender.d3.colors,
@@ -139,5 +139,26 @@ cm.party <- confusionMatrix(party_test_labels, party_test_pred, positive = "Demo
 ## with draw_confusion_matrix() function:
 draw_confusion_matrix(cm.party, 3)
 
+## with D3 chorddiag package:
+# https://github.com/mattflor/chorddiag
+# https://stats.stackexchange.com/questions/290889/what-is-the-best-way-of-graphical-or-visual-representation-of-confusion-matrix
 
+library(chorddiag)
+
+# create graph matrix:
+cm.party.d3 <- matrix(c(300, 37, 171,
+                        3, 13, 4,
+                        207, 42, 473),
+                       byrow = TRUE,
+                       nrow = 3,
+                       ncol = 3)
+cm.party.d3.names <- c("Democrat", "Independent", "Republican")
+dimnames(cm.party.d3) <- list(have = cm.party.d3.names,
+                               prefer = cm.party.d3.names)
+# aquamarine4, coral2
+cm.party.d3.colors <- c("#7FC5E5", "#A1E57F", "#E5867F")
+chorddiag(cm.party.d3, 
+          groupColors = cm.party.d3.colors,
+          groupnamePadding = 20,
+          showTicks = F)
 

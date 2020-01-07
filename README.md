@@ -84,7 +84,9 @@ chorddiag(cm.gender.d3,
     <a href="/images/2-class-d3-screencap.png"><img src="/images/2-class-d3-screencap.png"></a>
 </figure>
 
-I find this visualization particularly helpful in it's ability to visually articulate false negatives and false positives. It's interesting to see the source of these misclassifications, especially when you're working with more than two classes, which we'll see below.
+![2-Class CM Coord Diagram Demo](images/2-class-d3.gif)
+
+I find this visualization particularly helpful in its ability to visually articulate false negatives and false positives. It's interesting to see the source of these misclassifications, especially when you're working with more than two classes, which we'll see below.
 
 
 ## Visualizing 3-Class Confusion Matrices
