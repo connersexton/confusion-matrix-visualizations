@@ -83,10 +83,10 @@ chorddiag(cm.gender.d3,
 ```
 
 <figure>
-    <a href="/images/2-class-d3-screencap.png"><img src="/images/2-class-d3-screencap.png"></a>
+    <a href="/images/D3/2-class-d3-screencap.png"><img src="/images/D3/2-class-d3-screencap.png"></a>
 </figure>
 
-![2-Class CM Coord Diagram Demo](images/2-class-d3.gif)
+![2-Class CM Coord Diagram Demo](images/D3/2-class-d3.gif)
 
 
 I find this visualization particularly helpful in its ability to visually articulate false negatives and false positives. It's interesting to see the source of these misclassifications, especially when you're working with more than two classes, which we'll see below.
@@ -137,7 +137,40 @@ chorddiag(cm.party.d3,
 ```
 
 <figure>
-    <a href="/images/3-class-d3-screencap.png"><img src="/images/3-class-d3-screencap.png"></a>
+    <a href="/images/D3/3-class-d3-screencap.png"><img src="/images/D3/3-class-d3-screencap.png"></a>
 </figure>
 
-![2-Class CM Coord Diagram Demo](images/3-class-d3.gif)
+![2-Class CM Coord Diagram Demo](images/D3/3-class-d3.gif)
+
+### 3. ggplot2
+
+Using the [ggplot2 package](https://cran.r-project.org/web/packages/ggplot2/ggplot2.pdf) allows for more flexibility when customizing your confusion matrices. The following example takes advantage of ggplot2's geom_point() function.
+
+>I should also note that configuring the size of each point so they reflect the count of classifications is also a strong visualization choice. But for this example, the range was too high to produce a clear plot.
+
+```r
+cm.party.ggplot <- data.frame(predicted = rep(c("Democrat", "Independent", "Republican"), each = 3),
+                              actual = rep(c("Democrat", "Independent", "Republican"), times = 3),
+                              values = c(300, 37, 171,
+                                         3, 13, 4,
+                                         207, 42, 473))
+cm.party.ggplot %>%
+  mutate(correct = ifelse(predicted == actual, 1, 0),
+         predicted = factor(predicted,
+                            levels = c("Republican", "Independent", "Democrat"))) -> cm.party.ggplot
+
+ggplot(cm.party.ggplot, aes(actual, predicted))+
+  geom_point(aes(fill = factor(correct)), shape = 21, size = 20)+
+  geom_text(aes(label = cm.party.ggplot$values), size = 4)+
+  scale_fill_manual(values = c("#DF8982", "#82DF88"))+
+  scale_x_discrete(position = "top")+
+  theme_minimal()+
+  theme(legend.position = "none")+
+  labs(title = "Confusion Matrix",
+       x = "Actual",
+       y = "Predicted")
+```
+
+<figure>
+    <a href="/images/3-class-ggplot.png"><img src="/images/3-class-ggplot.png"></a>
+</figure>

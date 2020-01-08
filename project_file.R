@@ -162,3 +162,28 @@ chorddiag(cm.party.d3,
           groupnamePadding = 20,
           showTicks = F)
 
+## GGplot Bubble Plot:
+library(ggplot2)
+cm.party$table
+
+cm.party.ggplot <- data.frame(predicted = rep(c("Democrat", "Independent", "Republican"), each = 3),
+                              actual = rep(c("Democrat", "Independent", "Republican"), times = 3),
+                              values = c(300, 37, 171,
+                                         3, 13, 4,
+                                         207, 42, 473))
+cm.party.ggplot %>%
+  mutate(correct = ifelse(predicted == actual, 1, 0),
+         predicted = factor(predicted,
+                            levels = c("Republican", "Independent", "Democrat"))) -> cm.party.ggplot
+
+ggplot(cm.party.ggplot, aes(actual, predicted))+
+  geom_point(aes(fill = factor(correct)), shape = 21, size = 20)+
+  geom_text(aes(label = cm.party.ggplot$values), size = 4)+
+  scale_fill_manual(values = c("#DF8982", "#82DF88"))+
+  scale_x_discrete(position = "top")+
+  theme_minimal()+
+  theme(legend.position = "none")+
+  labs(title = "Confusion Matrix",
+       x = "Actual",
+       y = "Predicted")
+
