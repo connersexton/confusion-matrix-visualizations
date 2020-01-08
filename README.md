@@ -14,7 +14,7 @@ Additionally, these examples use machine learning models built using Naive Bayes
 
 ## Visualizing 2-Class Confusion Matrices
 
-First, we'll look at some examples of plotting a confusion matrix for a 2 class model. These examples will use the aforementioned data on political messages to the gender of a given politician with Naive Bayes.
+First, we'll look at some examples of plotting a confusion matrix for a 2 class model. These examples will use the aforementioned data on political messages to predict the gender of a given politician with Naive Bayes.
 
 ### 1. fourfoldplot (Base R)
 
@@ -30,6 +30,8 @@ fourfoldplot(cm.gender$table, color = c("#CC6666", "#99CC99"),
 <figure>
     <a href="/images/2-class-fourfoldplot.png"><img src="/images/2-class-fourfoldplot.png"></a>
 </figure>
+
+While the fourfoldplot() function is convenient as it's a Base R function and doesn't require much data preprocessing, it only supports 2-class machine learning models.
 
 ### 2. draw_confusion_matrix() function
 
@@ -86,9 +88,56 @@ chorddiag(cm.gender.d3,
 
 ![2-Class CM Coord Diagram Demo](images/2-class-d3.gif)
 
+
 I find this visualization particularly helpful in its ability to visually articulate false negatives and false positives. It's interesting to see the source of these misclassifications, especially when you're working with more than two classes, which we'll see below.
 
 
 ## Visualizing 3-Class Confusion Matrices
 
-working on it...
+Now we'll look at some sample visualizations for a 3-Class confusion matrix. These examples will use the aforementioned data on political messages to predict the party (Democrat, Independent, or Republican) of a given politician with Naive Bayes.
+
+### 1. draw_confusion_matrix() function
+
+As mentioned above, I've modified [@Cybernetic's](https://stackoverflow.com/users/1639594/cybernetic) original code to support a 3-class confusion matrix.
+
+```r
+## Store confusion matrix in object ("cm.party")
+cm.party <- confusionMatrix(party_test_labels, party_test_pred, positive = "Democrat")
+
+## with draw_confusion_matrix() function:
+draw_confusion_matrix(cm.party, 3)
+## inputs:
+# - caret package confusion matrix object
+# - number of classes the model predicts
+```
+
+<figure>
+    <a href="/images/3-class-cybernetic.png"><img src="/images/3-class-cybernetic.png"></a>
+</figure>
+
+### 2. Chord Diagram (choorddiag)
+
+```r
+# create graph matrix:
+cm.party.d3 <- matrix(c(300, 37, 171,
+                        3, 13, 4,
+                        207, 42, 473),
+                       byrow = TRUE,
+                       nrow = 3,
+                       ncol = 3)
+cm.party.d3.names <- c("Democrat", "Independent", "Republican")
+dimnames(cm.party.d3) <- list(have = cm.party.d3.names,
+                               prefer = cm.party.d3.names)
+# aquamarine4, coral2
+cm.party.d3.colors <- c("#7FC5E5", "#A1E57F", "#E5867F")
+chorddiag(cm.party.d3,
+          groupColors = cm.party.d3.colors,
+          groupnamePadding = 20,
+          showTicks = F)
+```
+
+<figure>
+    <a href="/images/3-class-d3-screencap.png"><img src="/images/3-class-d3-screencap.png"></a>
+</figure>
+
+![2-Class CM Coord Diagram Demo](images/3-class-d3.gif)
