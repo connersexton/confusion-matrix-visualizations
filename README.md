@@ -35,7 +35,7 @@ While the fourfoldplot() function is convenient as it's a Base R function and do
 
 ### 2. draw_confusion_matrix() function
 
-The draw_confusion_matrix() function was initially written by [@Cybernetic](https://stackoverflow.com/users/1639594/cybernetic) on Stack Overflow. The function uses Base R graphics to build clean visuals to display the results and confusion matrix of a given 2-class machine learning model.
+The draw_confusion_matrix() function was initially written by [@Cybernetic](https://stackoverflow.com/users/1639594/cybernetic) on Stack Overflow. The code that I've tweaked a bit comes from [@Breck](https://stackoverflow.com/users/9743526/breck)'s modifications to Cybernetic's code. The function uses Base R graphics to build clean visuals to display the results and confusion matrix of a given 2-class machine learning model.
 
 >This function only supports 2-class models, but I've rewritten the code to support 3-class models, which is reflected in my examples of 3-class visualizations. The code for this function is included in this repository.
 
